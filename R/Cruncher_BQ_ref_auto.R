@@ -7,7 +7,7 @@
 
 library("dplyr")
 library("rjwsacruncher")
-library("JDCruncheR")
+library("rjd3qr")
 library("rjd3workspace")
 
 
@@ -26,53 +26,65 @@ save_workspace(jws = ws_example, file = path_ws_auto, replace = TRUE)
 ## Options et paramètres -------------------------------------------------------
 
 # Mettre votre chemin menant au cruncher
-cruncher_bin_path <- normalizePath("Y:/Logiciels/JDemetraplus/jwsacruncher-3.5.1/jwsacruncher-3.5.1/bin/")
+cruncher_bin_path <- normalizePath("Y:/Logiciels/JDemetraplus/jwsacruncher-3.8.0/bin/")
 cruncher_bin_path
 
 options(
     cruncher_bin_directory = cruncher_bin_path,
     is_cruncher_v3 = TRUE,
     default_matrix_item = c(
+        # FOR JVS:
+
         "span.start",
         "span.end",
+        "log",
         "span.n",
-        "arima",
-        "arima.mean",
-        "arima.p",
-        "arima.d",
-        "arima.q",
-        "arima.bp",
-        "arima.bd",
-        "arima.bq",
-        "m-statistics.m7",
-        "m-statistics.q",
-        "m-statistics.q-m2",
-        "diagnostics.out-of-sample.mean:2",
-        "diagnostics.out-of-sample.mse:2",
-        "diagnostics.fcast-outsample-mean:2",
-        "diagnostics.fcast-outsample-variance:2",
         "regression.nout",
-        "residuals.kurtosis:3",
-        "residuals.skewness:3",
+        "regression.ntd",
+        "m-statistics.m7",
+        "decomposition.seasonal-filters",
+        "decomposition.trend-filter",
+        "decomposition.d7-trend-filter",
+        "quality.summary",
+        "regression.lp",
+        "regression.leaster",
+        "diagnostics.seas-sa-ac1:3",
+        "diagnostics.seas-sa-ac1",
+        "diagnostics.seas-lin-combined",
+        "regression.out(*)",
+        "regression.td-ftest:3",
+        "residuals.lb:3",
+        "diagnostics.td-sa-last:2",
+        "diagnostics.seas-sa-f:2",
+        "arima.p", "arima.d", "arima.q", "arima.bp", "arima.bd", "arima.bq",
+        "m-statistics.q", "m-statistics.q-m2",
+
+        # FOR QR:
+
         "residuals.lb2:3",
+        "residuals.skewness:3",
+        "residuals.kurtosis:3",
+        "residuals.dh:3",
+        "residuals.doornikhansen:3",
         "diagnostics.seas-sa-qs:2",
         "diagnostics.seas-sa-qs",
-        "diagnostics.seas-sa-f:2",
         "diagnostics.seas-i-qs:2",
         "diagnostics.seas-i-qs",
         "diagnostics.seas-i-f:2",
-        "diagnostics.td-sa-last:2",
+        "diagnostics.seas-i-f",
         "diagnostics.td-i-last:2",
-        "residuals.lb:3",
-        "residuals.dh:3",
-        "residuals.doornikhansen:3"
-    )
+        "diagnostics.td-i-last",
+        "diagnostics.out-of-sample.mean:2",
+        "diagnostics.fcast-outsample-mean:2",
+        "diagnostics.out-of-sample.mse:2",
+        "diagnostics.fcast-outsample-variance:2"
+
+    ),
+    default_tsmatrix_series = c("y", "s", "sa", "t")
 )
 
 getOption("default_matrix_item")
-
 getOption("default_tsmatrix_series")
-options(default_tsmatrix_series = c("s", "s_f", "sa", "sa_f"))
 
 
 ## Lecture pondérations --------------------------------------------------------
@@ -182,11 +194,11 @@ write.table(
     na = ""
 )
 
-export_xlsx(
+write(
     x = BQ_ref,
     file = "V:/Formations-Stats/CVS-CJO/BQ/BQ_ref.xlsx"
 )
-export_xlsx(
+write(
     x = BQ_auto,
     file = "V:/Formations-Stats/CVS-CJO/BQ/BQ_auto.xlsx"
 )
